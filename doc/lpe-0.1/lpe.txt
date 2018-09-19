@@ -12,7 +12,7 @@
 module LPE
 type ProcDefs = Map ProcId ProcDef
 preGNF :: (EnvB envb) => ProcId -> TranslatedProcDefs -> ProcDefs -> envb ProcDefs
-gnf :: (EnvB envb) => ProcId -> TranslatedProcDefs -> ProcDefs -> envb ProcDefs
+gnf :: (EnvB envb) => ProcId -> Map ProcId [ProcId] -> TranslatedProcDefs -> ProcDefs -> envb (ProcDefs, Map ProcId [ProcId])
 
 -- | wrapper around lpe function, returning only the relevant ProcDef
 --   instead of all ProcDefs
@@ -21,6 +21,7 @@ lpe :: (EnvB envb) => BExpr -> TranslatedProcDefs -> ProcDefs -> envb (BExpr, Pr
 lpePar :: (EnvB envb) => BExpr -> TranslatedProcDefs -> ProcDefs -> envb (BExpr, ProcDefs)
 lpeHide :: (EnvB envb) => BExpr -> TranslatedProcDefs -> ProcDefs -> envb (BExpr, ProcDefs)
 preGNFEnable :: (EnvB envb) => BExpr -> TranslatedProcDefs -> ProcDefs -> envb (BExpr, ProcDefs)
+preGNFDisable :: (EnvB envb) => BExpr -> TranslatedProcDefs -> ProcDefs -> envb (BExpr, ProcDefs)
 
 
 module LPEfunc
@@ -28,7 +29,8 @@ lpeTransformFunc :: BExpr -> ProcDefs -> Maybe (BExpr, ProcDef)
 lpeParFunc :: BExpr -> TranslatedProcDefs -> ProcDefs -> (BExpr, ProcDefs)
 lpeHideFunc :: BExpr -> Map (Name, Int) VarId -> TranslatedProcDefs -> ProcDefs -> (BExpr, ProcDefs)
 preGNFEnableFunc :: BExpr -> Map (Name, Int) VarId -> TranslatedProcDefs -> ProcDefs -> (BExpr, ProcDefs)
-gnfFunc :: ProcId -> TranslatedProcDefs -> ProcDefs -> ProcDefs
+preGNFDisableFunc :: BExpr -> Map (Name, Int) VarId -> TranslatedProcDefs -> ProcDefs -> (BExpr, ProcDefs)
+gnfFunc :: ProcId -> TranslatedProcDefs -> ProcDefs -> (ProcDefs, Map ProcId [ProcId])
 preGNFFunc :: ProcId -> TranslatedProcDefs -> ProcDefs -> ProcDefs
 eqProcDef :: Maybe (BExpr, ProcDef) -> Maybe (BExpr, ProcDef) -> Bool
 eqProcDefs :: ProcDefs -> ProcDefs -> Bool
